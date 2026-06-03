@@ -5,6 +5,12 @@ cleans it (inconsistent dates, money strings, duplicate region labels, missing
 values, dupe rows), loads it into SQLite, and answers natural-language questions
 with a data table, a chart, and a 1–3 sentence takeaway.
 
+## Team
+
+| Name | Role | Contact |
+|------|------|---------|
+| **Amit Kumar** | Solo developer — full-stack (backend, frontend, AI integration), project owner | 13abhirajamit@gmail.com |
+
 ## Stack
 
 - **Backend** — Python 3.11+, FastAPI, pandas, SQLAlchemy, SQLite, rapidfuzz
@@ -136,6 +142,24 @@ Restart the backend after editing.
 4. Static guardrail: reject anything not `SELECT`/`WITH`, reject multi-statement
 5. Execute, then a second LLM call synthesizes a 1–3 sentence insight from the
    question + result rows
+
+## AI tools used
+
+- **LLM inference** — the natural-language → SQL and the plain-English insight
+  generation are powered by a pluggable LLM provider (`app/llm.py`):
+  - **Hugging Face Inference API** (default, open-source) — `Qwen/Qwen2.5-Coder-32B-Instruct`
+    for NL→SQL; configurable via `HF_MODEL`.
+  - **Anthropic Claude** (switchable alternative) — `claude-sonnet-4-6`.
+  - Switch with a single env var (`LLM_PROVIDER`); no vendor lock-in.
+- **How AI is integrated** — two LLM calls per question:
+  1. **Plan generation** — prompt built from the live table schema + 3 sample
+     rows; the model returns `{sql, chart_spec}` as JSON.
+  2. **Insight synthesis** — a second call turns the query result into a
+     1–3 sentence plain-English takeaway.
+  Generated SQL is validated with SQLite `EXPLAIN` (one retry on error) and a
+  static guardrail (SELECT/WITH only, no multi-statement) before it ever runs.
+- **Development tooling** — built with the assistance of **Claude Code**
+  (Anthropic) for scaffolding and iteration.
 
 ## Out of scope (intentional)
 
