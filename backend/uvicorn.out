@@ -1,0 +1,8 @@
+INFO:     127.0.0.1:57168 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58183 - "POST /upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58184 - "POST /query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60470 - "POST /upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51482 - "POST /query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55981 - "POST /upload HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56650 - "POST /query HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52379 - "POST /query HTTP/1.1" 200 OK
