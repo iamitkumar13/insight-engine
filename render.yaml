@@ -1,0 +1,21 @@
+# Render blueprint for the Insight Engine backend (FastAPI).
+# Deploy: Render Dashboard -> New -> Blueprint -> connect this repo.
+# Set HF_TOKEN in the dashboard (it is marked sync:false so it is not stored here).
+services:
+  - type: web
+    name: insight-engine-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install uv && uv sync
+    startCommand: uv run uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.9"
+      - key: LLM_PROVIDER
+        value: hf
+      - key: HF_MODEL
+        value: Qwen/Qwen2.5-Coder-32B-Instruct
+      - key: HF_TOKEN
+        sync: false # set this in the Render dashboard
